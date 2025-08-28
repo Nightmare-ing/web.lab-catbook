@@ -31,11 +31,16 @@ body {
   color: var(--white);
   font-size: 20px;
   /* Below cancels out some of the default styling of h1 */
-  margin: 0; 
+  margin: 0;
   font-weight: normal;
 }
 
 .avatar {
   max-width: 100%;
-  border-radius: var(--m);
+  /* make it square */
+  aspect-ratio: 1;
+  /* make it fill the space while keeping the ratio */
+  object-fit: cover;
+  /* make it circle */
+  border-radius: 50%;
 }
