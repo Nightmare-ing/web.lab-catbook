@@ -18,6 +18,15 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
+.u-flex {
+  display: flex;
+}
+
+.sub_container {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
 .u-textCenter {
   text-align: center;
 }
