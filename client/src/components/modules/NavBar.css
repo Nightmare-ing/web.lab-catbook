@@ -5,3 +5,26 @@
  * .<old style> --> .<Component>-<style-name>
  * 
  */
+
+:root {
+  --primiary: #396dff;
+  --grep: #f7f7f7;
+  --white: #ffffff;
+
+  --xs: 4px;
+  --s: 8px;
+  --m: 16px;
+  --l: 24px;
+}
+
+.NavBar-container {
+  background-color: var(--primiary);
+  padding: var(--s) var(--m);
+}
+
+.NavBar-title {
+  color: var(--white);
+  font-size: 20px;
+  margin: 0;
+  font-weight: normal;
+}

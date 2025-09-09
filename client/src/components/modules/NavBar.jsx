@@ -7,10 +7,9 @@ import "./NavBar.css";
  */
 const NavBar = () => {
   return (
-    // TODO Step 0a: Implement NavBar similar to old navigation bar found in old_index.html.
-    // Hint: Look for the <nav> HTML tag.
-    // Remember "class" attributes in HTML are renamed to "className" in ReactJS.
-    null
+    <nav className="NavBar-container">
+      <h1 className="NavBar-title">Catbook</h1>
+    </nav>
   );
 };
 
