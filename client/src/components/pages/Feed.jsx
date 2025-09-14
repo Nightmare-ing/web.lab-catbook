@@ -6,9 +6,8 @@ import SingleStory from "../modules/SingleStory";
 const Feed = () => {
   const [stories, setStories] = useState([]);
 
-  // TODO (step4): implement a callback function addNewStory that adds a 
+  // TODO (step4): implement a callback function addNewStory that adds a
   // new story to the stories state
-  
 
   useEffect(() => {
     const story1 = {
@@ -27,14 +26,19 @@ const Feed = () => {
       content: "story3",
     };
     const hardcodedStories = [story1, story2, story3];
-    
+
     setStories(hardcodedStories);
   }, []);
 
-  return (
+  return stories.length == 0 ? (
+    <p>No stories!</p>
+  ) : (
     <div>
-      <SingleStory _id="test_id" creator_name="Evan" content="test" />
-      {JSON.stringify(stories)}
+      {stories.map((item) => {
+        return (
+          <SingleStory _id={item.test_id} creator_name={item.creator_name} content={item.content} />
+        );
+      })}
     </div>
   );
   // TODO (step3): map the state to SingleStory components
