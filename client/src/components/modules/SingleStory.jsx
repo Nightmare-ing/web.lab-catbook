@@ -12,8 +12,8 @@ import "./Card.css";
 const SingleStory = (props) => {
   return (
     <div className="Card-story">
-        <span className="u-bold">{props.creator_name}</span>
-        <p className="Card-storyContent">{props.content}</p>
+      <div className="u-bold">{props.creator_name}</div>
+      <p className="Card-storyContent">{props.content}</p>
     </div>
   );
 };
