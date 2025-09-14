@@ -1,6 +1,6 @@
 import React from "react";
 
-// TODO (step1): import Card.css
+import "./Card.css";
 
 /**
  * Story is a component that renders creator and content of a story
@@ -13,7 +13,8 @@ import React from "react";
 const SingleStory = (props) => {
   return (
     <div className="Card-story">
-      This is a SingleStory!
+      <p className="u-bold">{props.creator}</p>
+      <p className="Card-storyContent">{props.content}</p>
       {/* TODO (step1): use JSX and props to render story creator and content */}
     </div>
   );
