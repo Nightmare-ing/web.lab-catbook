@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-// TODO (step6): import useState from react
-// TODO (step6): import SingleStory
+import { useState } from "react";
+import SingleStory from "./SingleStory";
 // TODO (step7): import SingleComment
 // TODO (step8): import NewComment
 // TODO (step9): import CommentsBlock
@@ -16,24 +16,45 @@ import "./Card.css";
  * @param {string} content of the story
  */
 const Card = (props) => {
-  // TODO (step6): define a state called "comments" to hold comments (refer to Feed)
+  const [comments, setComments] = useState([]);
 
-  // TODO (step8): implement a callback function addNewComment that adds a 
+  // TODO (step8): implement a callback function addNewComment that adds a
   // new comment to the comments state
 
   useEffect(() => {
-    // TODO (step6): assign HARDCODED dummy values to the comments state
-    // a comment should be an object of the form: 
-    // {
-    //   _id: "some random string of letters",
-    //   creator_name: "creator name",
-    //   parent: "parent story id",
-    //   content: "story content",
-    // }
+    const comment1 = {
+      _id: "id1",
+      creator_name: "Anonymous User",
+      parent: "asdkfjlk",
+      content: "dsdcd",
+    };
+    const comment2 = {
+      _id: "id2",
+      creator_name: "Anonymous User",
+      parent: "asdkfjlk",
+      content: "dsdcd",
+    };
+    const comment3 = {
+      _id: "id3",
+      creator_name: "Anonymous User",
+      parent: "asdkfjlk",
+      content: "dsdcd",
+    };
+    const comment4 = {
+      _id: "id3",
+      creator_name: "Anonymous User",
+      parent: "asdkfjlk",
+      content: "dsdcd",
+    };
+    setComments([comment1, comment2, comment3, comment4]);
   }, []);
 
-  // TODO (step6): render a SingleStory using props,
-  // and render the comments from state (with JSON.stringify)
+  return (
+    <div>
+      <SingleStory _id={props._id} creator_name={props.creator_name} content={props.content} />
+      {JSON.stringify(comments.filter((x) => x._id === props._id))}
+    </div>
+  );
   // TODO (step7): map comments from state into SingleComment
   // components (refer to Feed)
   // TODO (step8): add in the NewComment component (refer to Feed)

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import SingleStory from "../modules/SingleStory";
+import Card from "../modules/Card";
 import { NewStory } from "../modules/NewPostInput";
-// TODO (step6): remove SingleStory import, import Card
 
 const Feed = () => {
   const [stories, setStories] = useState([]);
@@ -9,7 +8,7 @@ const Feed = () => {
   // updates the stories state so that the new story is added immediately
   const addNewStory = (value) => {
     setStories(stories.concat(value));
-  }
+  };
 
   useEffect(() => {
     const story1 = {
@@ -28,7 +27,7 @@ const Feed = () => {
       content: "story3",
     };
     const hardcodedStories = [story1, story2, story3];
-    
+
     setStories(hardcodedStories);
   }, []);
 
@@ -36,8 +35,7 @@ const Feed = () => {
   const hasStories = stories.length !== 0;
   if (hasStories) {
     storiesList = stories.map((storyObj) => (
-      // TODO (step6): use Card instead of SingleStory, passing down the same props
-      <SingleStory _id="test_id" creator_name={storyObj.creator_name} content={storyObj.content} />
+      <Card _id={storyObj._id} creator_name={storyObj.creator_name} content={storyObj.content} />
     ));
   } else {
     storiesList = <div>No stories!</div>;
@@ -45,7 +43,7 @@ const Feed = () => {
 
   return (
     <div>
-      <NewStory addNewStory={addNewStory}/>
+      <NewStory addNewStory={addNewStory} />
       {storiesList}
     </div>
   );
