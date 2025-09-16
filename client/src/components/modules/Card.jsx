@@ -5,6 +5,7 @@ import SingleStory from "./SingleStory";
 // TODO (step9): import CommentsBlock
 
 import "./Card.css";
+import SingleComment from "./SingleComment";
 
 /**
  * Card is a component for displaying content like stories
@@ -17,7 +18,7 @@ import "./Card.css";
 const Card = (props) => {
   const [comments, setComments] = useState([]);
 
-  // TODO (step8): implement a callback function addNewComment that adds a 
+  // TODO (step8): implement a callback function addNewComment that adds a
   // new comment to the comments state
 
   useEffect(() => {
@@ -41,17 +42,24 @@ const Card = (props) => {
     };
     const hardcodedComments = [comment1, comment2, comment3];
 
-    setComments(hardcodedComments.filter((comment)=>comment.parent==props._id));
+    setComments(hardcodedComments.filter((comment) => comment.parent == props._id));
   }, []);
+
+  let commentList = null;
+  if (comments.length === 0) {
+    commentList = <div>No Comments!</div>;
+  } else {
+    commentList = comments.map((item) => (
+      <SingleComment creator_name={item.creator_name} content={item.content} />
+    ));
+  }
 
   return (
     <div className="Card-container">
-      <SingleStory _id={props._id} creator_name={props.creator_name} content={props.content}/>
-      {JSON.stringify(comments)}
+      <SingleStory _id={props._id} creator_name={props.creator_name} content={props.content} />
+      {commentList}
     </div>
-  )
-  // TODO (step7): map comments from state into SingleComment
-  // components (refer to Feed)
+  );
   // TODO (step8): add in the NewComment component (refer to Feed)
   // TODO (step9): use CommentsBlock
 };
