@@ -6,19 +6,19 @@ import Feed from "./pages/Feed";
 // To use styles, import the necessary CSS files
 import "../utilities.css";
 import "./App.css";
+import { Outlet } from "react-router-dom";
 
 /**
  * Define the "App" component as a class.
  */
- const App = () => {
+const App = () => {
   return (
     // <> is like a <div>, but won't show
     // up in the DOM tree
     <>
       <NavBar />
       <div className="App-container">
-        {/* <Profile /> */}
-        <Feed />
+        <Outlet />
         {/* TODO (step5): use Outlet to route between pages */}
       </div>
     </>
