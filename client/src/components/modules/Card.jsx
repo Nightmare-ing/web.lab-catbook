@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SingleStory from "./SingleStory";
 import SingleComment from "./SingleComment";
 import { NewComment } from "./NewPostInput";
-// TODO (step9): import CommentsBlock
+import CommentsBlock from "./CommentsBlock";
 
 import "./Card.css";
 
@@ -43,26 +43,15 @@ const Card = (props) => {
     };
     const hardcodedComments = [comment1, comment2, comment3];
 
-    setComments(hardcodedComments.filter((comment)=>comment.parent==props._id));
+    setComments(hardcodedComments.filter((comment) => comment.parent == props._id));
   }, []);
-
-  let commentsList = null;
-  const hasComments = comments.length !== 0;
-  if (hasComments) {
-    commentsList = comments.map((commentObj) => (
-      <SingleComment _id={commentObj._id} creator_name={commentObj.creator_name} content={commentObj.content}/>
-    ));
-  } else {
-    commentsList = <div>No comments!</div>;
-  }
 
   return (
     <div className="Card-container">
-      <SingleStory _id={props._id} creator_name={props.creator_name} content={props.content}/>
-      {commentsList}
-      <NewComment storyId={props._id} addNewComment={addNewComment}/>
+      <SingleStory _id={props._id} creator_name={props.creator_name} content={props.content} />
+      <CommentsBlock comments={comments} story={props._id} addNewComment={addNewComment} />
     </div>
-  )
+  );
   // TODO (step9): use CommentsBlock
 };
 

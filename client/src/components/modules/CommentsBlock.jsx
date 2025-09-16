@@ -1,5 +1,6 @@
 import React from "react";
-// TODO (step9): import SingleComment and NewComment
+import SingleComment from "./SingleComment";
+import { NewComment } from "./NewPostInput";
 
 /**
  * @typedef ContentObject
@@ -14,12 +15,28 @@ import React from "react";
  * Proptypes
  * @param {ContentObject[]} comments
  * @param {ContentObject} story
+ * @param {(value) => void} addNewComment (function) used to update the state in the parent
  */
-const CommentsBlock = () => {
+const CommentsBlock = (props) => {
+  let commentsList = null;
+  const hasComments = props.comments.length !== 0;
+  if (hasComments) {
+    commentsList = props.comments.map((commentObj) => (
+      <SingleComment
+        _id={commentObj._id}
+        creator_name={commentObj.creator_name}
+        content={commentObj.content}
+      />
+    ));
+  } else {
+    commentsList = <div>No comments!</div>;
+  }
+
   return (
     <div className="Card-commentSection">
       <div className="story-comments">
-        {/* TODO (step9): render comments */}
+        {commentsList}
+        <NewComment storyId={props.story} addNewComment={props.addNewComment} />
       </div>
     </div>
   );
