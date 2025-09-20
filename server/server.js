@@ -85,6 +85,10 @@ app.get("/api/comments", (req, res) => {
 });
 
 // TODO (step4): implement POST /api/comment endpoint
+app.post("/api/comment", (req, res) => {
+  comments.push(req.body.comment);
+  res.status(200).send(req.body.comment);
+});
 
 // TODO (step5): implement middleware for /api routes
 
