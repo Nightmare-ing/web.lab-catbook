@@ -23,27 +23,12 @@ const Card = (props) => {
 
   useEffect(() => {
     // TODO (step3): fetch the comments from the server
-    const comment1 = {
-      _id: "commentid1",
-      creator_name: "Daniel Hong",
-      parent: "id1",
-      content: "Hi Stanley",
+    const query = {
+      storyId: props._id,
     };
-    const comment2 = {
-      _id: "commentid2",
-      creator_name: "Lucas Bautista",
-      parent: "id2",
-      content: "I agree!",
-    };
-    const comment3 = {
-      _id: "commentid3",
-      creator_name: "Stanley Zhao",
-      parent: "id1",
-      content: "Hi Daniel",
-    };
-    const hardcodedComments = [comment1, comment2, comment3];
-
-    setComments(hardcodedComments.filter((comment) => comment.parent === props._id));
+    get("/api/comments", query).then((commentObjs) => {
+      setComments(commentObjs);
+    });
   }, []);
 
   return (
