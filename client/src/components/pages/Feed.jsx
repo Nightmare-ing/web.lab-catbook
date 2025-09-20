@@ -8,9 +8,17 @@ const Feed = () => {
 
   // updates the stories state so that the new story is added immediately
   const addNewStory = (value) => {
+<<<<<<< Updated upstream
     // TODO (step2): post the new story to the server
     setStories([value].concat(stories));
   }
+=======
+    const body = { content: value };
+    post("/api/story", body).then((newStoryObj) => {
+      setStories([newStoryObj].concat(stories));
+    });
+  };
+>>>>>>> Stashed changes
 
   useEffect(() => {
     // TODO (step1): fetch the stories from the server

@@ -50,6 +50,10 @@ app.get("/api/stories", (req, res) => {
 });
 
 // TODO (step2): implement POST /api/story endpoint
+app.post("/api/story", (req, res) => {
+  stories.push(req.body.content);
+  res.status(200).send(req.body.content);
+});
 
 // TODO (step3): implement GET /api/comments endpoint
 
