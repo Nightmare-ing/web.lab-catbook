@@ -10,7 +10,7 @@ import "../modules/Card.css";
  * @param {string} creator_name
  * @param {string} content of the story
  */
-const SingleStory = () => {
+const SingleStory = (props) => {
   return (
     <div className="Card-story">
       <span className="u-bold">{props.creator_name}</span>

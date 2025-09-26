@@ -12,15 +12,15 @@ const Feed = () => {
     post("/api/story", value).then((storyObj) => {
       setStories([storyObj].concat(stories));
     });
-  }
+  };
 
   useEffect(() => {
     // TODO (step1): fetch the stories from the server
-    get("/api/stories").then(
+    get("/api/stories").then((storiesResponse) => {
       // list stories in reverse order
       let reversedStoryObjs = storiesResponse.reverse();
       setStories(reversedStoryObjs);
-    );
+    });
   }, []);
 
   let storiesList = null;
