@@ -12,7 +12,7 @@ const Feed = () => {
     post("/api/story", value).then((storyObj) => {
       setStories([storyObj].concat(stories));
     });
-  }
+  };
 
   useEffect(() => {
     // TODO (step1): fetch the stories from the server
@@ -31,6 +31,7 @@ const Feed = () => {
         key={`Card_${storyObj._id}`}
         _id={storyObj._id}
         creator_name={storyObj.creator_name}
+        content={storyObj.content}
       />
     ));
   } else {
