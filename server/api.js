@@ -1,4 +1,3 @@
-
 const express = require("express");
 
 const router = express.Router();
@@ -34,7 +33,8 @@ router.get("/stories", (req, res) => {
 router.post("/story", (req, res) => {
   const newStory = req.body;
   stories.push(newStory);
-})
+  res.send(newStory);
+});
 
 // TODO (step3): implement GET /api/comments endpoint
 
@@ -59,7 +59,7 @@ const comment3 = {
 const comments = [comment1, comment2, comment3];
 
 router.get("/comments", (req, res) => {
-  res.send(comments.filter((comment) => comment.parentStory === req.query.parentStory));
+  res.send(comments.filter((comment) => comment.parent === req.query.parent));
 });
 
 // TODO (step4): implement POST /api/comment endpoint

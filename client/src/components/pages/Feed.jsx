@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "../modules/Card";
-import NewStory from "../modules/NewPostInput";
+import { NewStory } from "../modules/NewPostInput";
 import { get, post } from "../../utilities";
 
 const Feed = () => {
@@ -9,8 +9,10 @@ const Feed = () => {
   // updates the stories state so that the new story is added immediately
   const addNewStory = (value) => {
     // TODO (step2): post the new story to the server
-    post("/api/story", value);
-  }
+    post("/api/story", value).then((storyResp) => {
+      setStories([storyResp].concat(stories));
+    });
+  };
 
   useEffect(() => {
     // TODO (step1): fetch the stories from the server
@@ -42,3 +44,5 @@ const Feed = () => {
     </div>
   );
 };
+
+export default Feed;
