@@ -16,14 +16,13 @@ const myName = "Anonymous";
 
 // import models so we can interact with the database
 const Story = require("./models/story");
-const Comment = require("./models/comment")
+const Comment = require("./models/comment");
 
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
 router.get("/stories", (req, res) => {
-  Story.find({})
-    .then((stories) => res.send(stories));
+  Story.find({}).then((stories) => res.send(stories));
 });
 
 router.post("/story", (req, res) => {
@@ -35,21 +34,26 @@ router.post("/story", (req, res) => {
 });
 
 router.get("/comment", (req, res) => {
-  Comment.find({ /* TODO (step2) input the parent parameter here*/ }).then((comments) => {
+  Comment.find({
+    parent: req.query.parent,
+  }).then((comments) => {
     res.send(comments);
   });
 });
 
 router.post("/comment", (req, res) => {
-  // TODO (step2) create a new Comment document and put it into the collection using the model
+  const newComment = new Comment({
+    creator_name: "David",
+    content: req.body.content,
+    parent: req.body.parent,
+  });
+  newComment.save().then((comment) => res.send(comment));
 });
-
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });
 });
-
 
 module.exports = router;
