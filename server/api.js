@@ -19,7 +19,6 @@ const auth = require("./auth");
 const router = express.Router();
 
 // TODO: Get rid of this!
-const MY_NAME = "Anonymous User";
 
 router.get("/stories", (req, res) => {
   // empty selector means get all documents
@@ -30,7 +29,8 @@ router.post("/story", (req, res) => {
   // TODO: Introduce creator_id
   // TODO: Use the real creator name
   const newStory = new Story({
-    creator_name: MY_NAME,
+    creator_id: req.user._id,
+    creator_name: req.user.name,
     content: req.body.content,
   });
 
@@ -47,7 +47,8 @@ router.post("/comment", (req, res) => {
   // TODO: Introduce creator_id
   // TODO: Use the real creator name
   const newComment = new Comment({
-    creator_name: MY_NAME,
+    creator_id: req.user._id,
+    creator_name: req.user.name,
     parent: req.body.parent,
     content: req.body.content,
   });
