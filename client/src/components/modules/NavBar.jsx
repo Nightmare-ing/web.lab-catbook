@@ -17,6 +17,9 @@ const NavBar = (props) => {
     setLoggedIn(true);
 
     // TODO: Send res.credential to the backend
+    post("/api/login", { token: res.credential }).then((userDoc) => {
+      console.log(userDoc);
+    });
   };
 
   const handleLogout = () => {
@@ -24,6 +27,7 @@ const NavBar = (props) => {
     setLoggedIn(false);
 
     // TODO: Tell the backend we logged out
+    post("/api/logout");
   };
 
   return (

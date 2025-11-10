@@ -53,6 +53,8 @@ router.post("/comment", (req, res) => {
 });
 
 // TODO: add POST /api/login and POST /api/logout
+router.post("/login", auth.login);
+router.post("/logout", auth.logout);
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
