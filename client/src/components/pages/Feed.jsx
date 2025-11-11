@@ -31,6 +31,7 @@ const Feed = () => {
       <Card
         key={`Card_${storyObj._id}`}
         _id={storyObj._id}
+        creator_id={storyObj.creator_id}
         creator_name={storyObj.creator_name}
         content={storyObj.content}
       />

@@ -22,7 +22,7 @@ const router = createBrowserRouter(
     <Route errorElement={<NotFound />} element={<App />}>
       <Route path="/" element={<Feed />} />
       {/* TODO: change route to accept userId */}
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/profile/:userId" element={<Profile />} />
     </Route>
   )
 );

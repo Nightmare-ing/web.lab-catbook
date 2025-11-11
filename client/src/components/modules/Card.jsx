@@ -31,7 +31,12 @@ const Card = (props) => {
   return (
     <div className="Card-container">
       {/* TODO: pass creator_id as an additional prop */}
-      <SingleStory _id={props._id} creator_name={props.creator_name} content={props.content} />
+      <SingleStory
+        _id={props._id}
+        creator_id={props.creator_id}
+        creator_name={props.creator_name}
+        content={props.content}
+      />
       <CommentsBlock story={props} comments={comments} addNewComment={addNewComment} />
     </div>
   );
