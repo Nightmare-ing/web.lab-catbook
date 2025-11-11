@@ -3,22 +3,33 @@ import CatHappiness from "../modules/CatHappiness";
 
 import "../../utilities.css";
 import "./Profile.css";
+import { useParams } from "react-router-dom";
+import { get } from "../../utilities";
 
 const Profile = () => {
   const [catHappiness, setCatHappiness] = useState(0);
   // TODO: intiialize user state
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     document.title = "Profile Page";
   }, []);
 
   // TODO: fetch user data on page load by making a GET request to "/api/user" and set user state to the server response
+  const userId = useParams().userId;
+  useEffect(() => {
+    get("/api/user", { userId: useParams().userId }).then((userObj) => {
+      setUser(userObj);
+    });
+  }, []);
 
   const incrementCatHappiness = () => {
     setCatHappiness(catHappiness + 1);
   };
 
-  return (
+  return user === null ? (
+    <h1>Loading...</h1>
+  ) : (
     <>
       {/* TODO: conditionally render Loading! if user is undefined */}
       <div
@@ -30,7 +41,7 @@ const Profile = () => {
         <div className="Profile-avatar" />
       </div>
       {/* TODO: update name with name from user data */}
-      <h1 className="Profile-name u-textCenter">Shannen Wu</h1>
+      <h1 className="Profile-name u-textCenter">{user.name}</h1>
       <hr className="Profile-line" />
       <div className="u-flex">
         <div className="Profile-subContainer u-textCenter">
