@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 
-import { get, post } from "../../utilities";
 import "./NavBar.css";
 
 // TODO: Import UserContext by uncommenting:
-// import { UserContext } from "../context/UserContext";
+import { UserContext } from "../context/UserContext";
 
 /**
  * The navigation bar at the top of all pages. Takes no props.
@@ -14,37 +13,9 @@ import "./NavBar.css";
 const NavBar = (props) => {
   // TODO: Move userId state, whoami fetch, login, and logout functions to App.jsx
   // TODO: Consume userId from UserContext
+  const userId = useContext(UserContext).userId;
 
   ////////////////////////////
-
-  const [userId, setUserId] = useState(null);
-
-  useEffect(() => {
-    get("/api/whoami").then((user) => {
-      if (user._id) {
-        // they are registed in the database, and currently logged in.
-        setUserId(user._id);
-      }
-    });
-  }, []);
-
-  const handleLogin = (res) => {
-    // 'res' contains the response from Google's authentication servers
-    console.log(res);
-
-    const userToken = res.credential;
-    post("/api/login", { token: userToken }).then((user) => {
-      // the server knows we're logged in now
-      setUserId(user._id);
-      console.log(user);
-    });
-  };
-
-  const handleLogout = () => {
-    console.log("Logged out successfully!");
-    post("/api/logout");
-    setUserId(null);
-  };
 
   ////////////////////////////
 
@@ -62,13 +33,13 @@ const NavBar = (props) => {
         )}
         {/* Pass in handleLogout and handleLogin as props */}
         {userId ? (
-          <button className="NavBar-link NavBar-login u-inlineBlock" onClick={handleLogout}>
+          <button className="NavBar-link NavBar-login u-inlineBlock" onClick={props.handleLogout}>
             Sign out
           </button>
         ) : (
           <GoogleLogin
             text="signin_with"
-            onSuccess={handleLogin}
+            onSuccess={props.handleLogin}
             onFailure={(err) => console.log(err)}
             containerProps={{ className: "NavBar-link NavBar-login u-inlineBlock" }}
           />
