@@ -10,24 +10,24 @@ import "./NavBar.css";
  */
 const NavBar = (props) => {
   // TODO: replace the loggedIn state with a userId state
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   const handleLogin = (res) => {
     // 'res' contains the response from Google's authentication servers
     console.log(res);
 
-    setLoggedIn(true);
     const userToken = res.credential;
     post("/api/login", { token: userToken }).then((user) => {
       // the server knows we're logged in now
       console.log(user);
       // TODO: update the userId state
+      setUserId(user._id);
     });
   };
 
   const handleLogout = () => {
     console.log("Logged out successfully!");
-    setLoggedIn(false);
+    setUserId(null);
     post("/api/logout");
     // TODO: update the userId state
   };
@@ -40,13 +40,15 @@ const NavBar = (props) => {
           Home
         </Link>
         {/* TODO: update the link using the userId state */}
-        <Link to={`/profile`} className="NavBar-link">
-          Profile
-        </Link>
-        {loggedIn ? (
-          <button className="NavBar-link NavBar-login u-inlineBlock" onClick={handleLogout}>
-            Sign out
-          </button>
+        {userId !== null ? (
+          <>
+            <Link to={`/profile/${userId}`} className="NavBar-link">
+              Profile
+            </Link>
+            <button className="NavBar-link NavBar-login u-inlineBlock" onClick={handleLogout}>
+              Sign out
+            </button>
+          </>
         ) : (
           <GoogleLogin
             text="signin_with"
