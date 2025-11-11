@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -12,6 +12,13 @@ const NavBar = (props) => {
   const [userId, setUserId] = useState(null);
 
   // TODO: call /api/whoami inside of a useEffect (on page load) to set the userId state
+  useEffect(() => {
+    get("/api/whoami").then((user) => {
+      if (user._id) {
+        setUserId(user._id);
+      }
+    });
+  });
 
   const handleLogin = (res) => {
     // 'res' contains the response from Google's authentication servers
@@ -39,9 +46,11 @@ const NavBar = (props) => {
           Home
         </Link>
         {/* TODO: Hide profile link if not logged in! */}
-        <Link to={`/profile/${userId}`} className="NavBar-link">
-          Profile
-        </Link>
+        {userId && (
+          <Link to={`/profile/${userId}`} className="NavBar-link">
+            Profile
+          </Link>
+        )}
         {userId ? (
           <button className="NavBar-link NavBar-login u-inlineBlock" onClick={handleLogout}>
             Sign out

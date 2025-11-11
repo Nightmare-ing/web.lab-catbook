@@ -60,6 +60,13 @@ router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 
 // TODO: set up the "get" whoami route
+router.get("/whoami", (req, res) => {
+  if (req.user) {
+    res.send(req.user);
+  } else {
+    res.send({});
+  }
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
