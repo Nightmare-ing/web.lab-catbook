@@ -92,10 +92,13 @@ const NewStory = (props) => {
  */
 const NewMessage = (props) => {
   // TODO (step 1.2): add sendMessage function and pass to onSubmit.
+  const sendMessage = (message) => {
+    console.log(`New Message: ${message}`);
+  };
   // For now, sendMessage function should just log the message to the console.
 
   // TODO (step 1.1): populate NewMessage
-  return <div></div>;
-}
+  return <NewPostInput defaultText="New Message" onSubmit={sendMessage} />;
+};
 
 export { NewComment, NewStory, NewMessage };

@@ -29,7 +29,28 @@ import "./Chat.css";
  */
 const Chat = (props) => {
   // TODO (step 1.4): populate Chat.js
-  return <div></div>;
-}
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    setMessages(props.chatData.messages);
+  }, []);
+
+  let messageList = null;
+  if (messages.length !== 0) {
+    messageList = messages.map((messageObj, i) => <SingleMessage key={i} message={messageObj} />);
+  } else {
+    <p>No Messages!</p>;
+  }
+
+  return (
+    <div className="u-flexColumn Chat-container">
+      <h3 className="u-bold">Chatting with {props.chatData.recipient.name}</h3>
+      <div className="Chat-historyContainer">{messageList}</div>
+      <div className="Chat-newContainer">
+        <NewMessage />
+      </div>
+    </div>
+  );
+};
 
 export default Chat;
