@@ -37,8 +37,11 @@ const TEST_MESSAGES = [
 ];
 
 const Chatbook = () => {
-
   // TODO (step 2.1): add state activeChat, an object with two fields:
+  const [activeChat, setActiveChat] = useState({
+    recipient: ALL_CHAT,
+    messages: TEST_MESSAGES,
+  });
   // recipient, and messages!
   // In this object, initialize recipient to ALL_CHAT, and messages to TEST_MESSAGES
   const userId = useContext(UserContext); // UserContext stores the ID of the currently logged in user
@@ -57,12 +60,7 @@ const Chatbook = () => {
       <div className="u-flex u-relative Chatbook-container">
         <div className="Chatbook-chatContainer u-relative">
           {/* TODO (step 2.2): change data to use our activeChat state */}
-          <Chat
-            data={{
-              recipient: ALL_CHAT,
-              messages: TEST_MESSAGES,
-            }}
-          />
+          <Chat data={activeChat} />
         </div>
       </div>
     </>
