@@ -29,22 +29,15 @@ const TEST_MESSAGES = [
 ];
 
 const ALL_CHAT = {
-  messages: TEST_MESSAGES,
-  recipient: {
-    _id: 0,
-    name: "ALL CHAT",
-  },
+  _id: 0,
+  name: "ALL CHAT",
 };
 
 const TEST_DATA = [
   {
     messages: TEST_MESSAGES,
-    recipient: {
-      _id: 1,
-      name: "David",
-    },
+    recipient: ALL_CHAT,
   },
-  ALL_CHAT,
 ];
 
 const Chatbook = () => {
@@ -59,7 +52,7 @@ const Chatbook = () => {
   return userId ? (
     <div className="u-flex Chatbook-container">
       <div className="Chatbook-chatContainer">
-        <Chat chatData={ALL_CHAT} />
+        <Chat chatData={{ recipient: ALL_CHAT, messages: TEST_MESSAGES }} />
       </div>
     </div>
   ) : (
