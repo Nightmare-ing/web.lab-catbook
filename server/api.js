@@ -67,11 +67,13 @@ router.get("/whoami", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  User.findById(req.query.userid).then((user) => {
-    res.send(user);
-  }).catch((err) => {
-    res.status(500).send('User Not');
-  });
+  User.findById(req.query.userid)
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.status(500).send("User Not");
+    });
 });
 
 router.post("/initsocket", (req, res) => {
@@ -80,6 +82,13 @@ router.post("/initsocket", (req, res) => {
 });
 
 // TODO (step 3.2): implement chat route
+router.get("/chat", (req, res) => {
+  Message.find({
+    "recipient._id": req.query.recipientId,
+  }).then((messagesObj) => {
+    res.send(messagesObj);
+  });
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {

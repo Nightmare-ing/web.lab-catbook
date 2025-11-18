@@ -9,35 +9,28 @@ import { UserContext } from "../context/UserContext";
 
 const ALL_CHAT = {
   _id: "ALL_CHAT",
-  name: "ALL CHAT",
+  name: "ALL_CHAT",
 };
 
 const TEST_MESSAGES = [
   {
     sender: {
       _id: 0,
-      name: "Abby",
+      name: "Kenneth",
     },
-    content: "tell me why",
+    content: "i love web lab",
   },
   {
     sender: {
-      _id: 0,
+      _id: 2,
       name: "Abby",
     },
-    content: "aint nothin but a heartache",
-  },
-  {
-    sender: {
-      _id: 0,
-      name: "Abby",
-    },
-    content: "tElL mE whYyY",
+    content: "I'm Abby",
   },
 ];
 
 const Chatbook = () => {
-const userId = useContext(UserContext);
+  const userId = useContext(UserContext);
   const [activeChat, setActiveChat] = useState({
     recipient: ALL_CHAT,
     messages: TEST_MESSAGES,
@@ -45,6 +38,12 @@ const userId = useContext(UserContext);
 
   const loadMessageHistory = (recipient) => {
     // TODO (step 3.3): Load message history using the /api/chat endpoint
+    get("/api/chat", { recipient: recipient._id }).then((messagesObj) => {
+      setActiveChat({
+        recipient: recipient,
+        messages: messagesObj,
+      });
+    });
   };
 
   useEffect(() => {
@@ -53,6 +52,7 @@ const userId = useContext(UserContext);
 
   useEffect(() => {
     // TODO (step 3.4): Call loadMessageHistory
+    loadMessageHistory(activeChat.recipient);
   }, []);
 
   if (!userId) {
@@ -63,7 +63,7 @@ const userId = useContext(UserContext);
     <>
       <div className="u-flex u-relative Chatbook-container">
         <div className="Chatbook-chatContainer u-relative">
-          <Chat data={activeChat} />
+          {activeChat === null ? <p>Loading...</p> : <Chat data={activeChat} />}
         </div>
       </div>
     </>

@@ -9,12 +9,15 @@ import "./SingleMessage.css";
  * @param {MessageObject} message
  */
 const SingleMessage = (props) => {
+  const sender = props.message.sender;
   return (
     <div className={"u-flex u-flex-alignCenter SingleMessage-container"}>
-      <span className=" SingleMessage-sender u-bold">{props.message.sender.name + ":"}</span>
+      <span className=" SingleMessage-sender u-bold">
+        {sender !== null && sender !== undefined && sender.name}
+      </span>
       <span className="SingleMessage-content">{props.message.content}</span>
     </div>
   );
-}
+};
 
 export default SingleMessage;
