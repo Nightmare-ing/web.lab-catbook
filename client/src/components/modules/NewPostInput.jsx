@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import "./NewPostInput.css";
-import { post } from "../../utilities";
+import { post, get } from "../../utilities";
+import { UserContext } from "../context/UserContext";
 
 /**
  * New Post is a parent component for all input components
@@ -93,10 +94,22 @@ const NewStory = (props) => {
 const NewMessage = (props) => {
   const sendMessage = (value) => {
     // TODO (step 4.2): call the POST /api/message endpoint to send the message to the server
-    console.log(value);
+    const body = {
+      message: {
+        content: value,
+        recipient: {
+          _id: "ALL_CHAT",
+          name: "ALL_CHAT",
+        },
+      },
+    };
+
+    post("/api/message", body).then((messageObj) => {
+      console.log(messageObj);
+    });
   };
 
   return <NewPostInput defaultText="New Message" onSubmit={sendMessage} />;
-}
+};
 
 export { NewComment, NewStory, NewMessage };

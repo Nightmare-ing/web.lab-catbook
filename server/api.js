@@ -67,11 +67,13 @@ router.get("/whoami", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  User.findById(req.query.userid).then((user) => {
-    res.send(user);
-  }).catch((err) => {
-    res.status(500).send('User Not');
-  });
+  User.findById(req.query.userid)
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.status(500).send("User Not");
+    });
 });
 
 router.post("/initsocket", (req, res) => {
@@ -82,13 +84,25 @@ router.post("/initsocket", (req, res) => {
 router.get("/chat", (req, res) => {
   const query = { "recipient._id": "ALL_CHAT" };
   Message.find(query).then((messages) => res.send(messages));
-})
+});
 
 // TODO (step 4.1): implement /api/message endpoint
 // HINT: What does the request body look like?
 //       What does the Message model look like?
 //    -> What does the server need to fill out itself?
-
+router.post("/message", (req, res) => {
+  const newMessage = new Message({
+    sender: {
+      _id: req.user._id,
+      name: req.user.name,
+    },
+    content: req.body.message.content,
+    recipient: req.body.message.recipient,
+  });
+  newMessage.save().then((message) => {
+    res.send(message);
+  });
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
