@@ -31,7 +31,7 @@ const App = () => {
     post("/api/login", { token: userToken }).then((user) => {
       setUserId(user._id);
       // TODO (step 1.1): make post call to /api/initsocket (1 line)
-      
+      post("/api/initsocket", { socketId: socket.id });
     });
   };
 
@@ -47,11 +47,7 @@ const App = () => {
     // <> is like a <div>, but won't show
     // up in the DOM tree
     <>
-      <NavBar
-        handleLogin={handleLogin}
-        handleLogout={handleLogout}
-        userId={userId}
-      />
+      <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
       <div className="App-container">
         <Outlet context={{ userId: userId }} />
       </div>
