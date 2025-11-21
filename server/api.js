@@ -67,11 +67,13 @@ router.get("/whoami", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  User.findById(req.query.userid).then((user) => {
-    res.send(user);
-  }).catch((err) => {
-    res.status(500).send('User Not');
-  });
+  User.findById(req.query.userid)
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.status(500).send("User Not");
+    });
 });
 
 router.post("/initsocket", (req, res) => {
@@ -98,7 +100,7 @@ router.post("/message", auth.ensureLoggedIn, (req, res) => {
   });
   message.save();
   // TODO (step 0.1): emit to all clients that a message was received (1 line)
-  
+  socketManager.getIo().emit("message", message);
 });
 
 // anything else falls to this "not found" case

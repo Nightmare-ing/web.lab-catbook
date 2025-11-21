@@ -13,7 +13,6 @@ const ALL_CHAT = {
 };
 
 const Chatbook = () => {
-
   let props = useOutletContext();
 
   const [activeChat, setActiveChat] = useState({
@@ -31,7 +30,7 @@ const Chatbook = () => {
   };
 
   const addMessage = (data) => {
-    setActiveChat(prevActiveChat => ({
+    setActiveChat((prevActiveChat) => ({
       recipient: prevActiveChat.recipient,
       messages: prevActiveChat.messages.concat(data),
     }));
@@ -47,6 +46,7 @@ const Chatbook = () => {
 
   useEffect(() => {
     // TODO (step 0.2): add socket.on to add a message when we receive one from the server (1 line)
+    socket.on("message", addMessage);
 
     return () => {
       socket.off("message", addMessage);
