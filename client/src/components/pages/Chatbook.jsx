@@ -13,7 +13,6 @@ const ALL_CHAT = {
 };
 
 const Chatbook = () => {
-
   const [activeUsers, setActiveUsers] = useState([]);
   let props = useOutletContext();
 
@@ -32,7 +31,7 @@ const Chatbook = () => {
   };
 
   const addMessage = (data) => {
-    setActiveChat(prevActiveChat => ({
+    setActiveChat((prevActiveChat) => ({
       recipient: prevActiveChat.recipient,
       messages: prevActiveChat.messages.concat(data),
     }));
@@ -49,7 +48,12 @@ const Chatbook = () => {
   useEffect(() => {
     // TODO (step 5.1): GET request to activeUsers
     // only load active users if the user is logged in (i.e. props.userId is not null)
-
+    get("/api/activeUsers").then((activeUsersObj) => {
+      if (props.userId) {
+        console.log("setting active users");
+        setActiveUsers([ALL_CHAT].concat(activeUsersObj.activeUsers));
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -83,6 +87,6 @@ const Chatbook = () => {
       </div>
     </>
   );
-}
+};
 
 export default Chatbook;
