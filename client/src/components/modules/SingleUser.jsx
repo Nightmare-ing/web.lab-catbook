@@ -14,15 +14,17 @@ const SingleUser = (props) => {
   // TODO (step 2.1) render single user in chat list
   return (
     <div
-      className={`SingleUser-container u-pointer ${props.active ?
-        "SingleUser-container--active" : ""
-        }`}
+      className={`SingleUser-container u-pointer ${
+        props.active ? "SingleUser-container--active" : ""
+      }`}
       onClick={() => {
         // TODO (step 2.1.1) change the user on click
+        props.setActiveUser(props.user);
       }}
     >
+      {props.user.name}
     </div>
   );
-}
+};
 
 export default SingleUser;

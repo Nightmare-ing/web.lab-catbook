@@ -14,7 +14,14 @@ import "./SingleUser.css";
  */
 const ChatList = (props) => {
   // TODO (step 2.2) render chat list
-  return <></>;
-}
+  const userList = props.users.map((user) => (
+    <SingleUser
+      active={user._id === props.active._id}
+      user={user}
+      setActiveUser={props.setActiveUser}
+    />
+  ));
+  return <>{userList}</>;
+};
 
 export default ChatList;
