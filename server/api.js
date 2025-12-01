@@ -67,16 +67,19 @@ router.get("/whoami", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  User.findById(req.query.userid).then((user) => {
-    res.send(user);
-  }).catch((err) => {
-    res.status(500).send('User Not');
-  });
+  User.findById(req.query.userid)
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.status(500).send("User Not");
+    });
 });
 
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
-  if (req.user) socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
+  if (req.user)
+    socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
   res.send({});
 });
 
@@ -97,7 +100,17 @@ router.get("/chat", (req, res) => {
   //   $or finds all documents that satisfy any of the expressions in the array
   //
   // remember to "let" query instead of using "const"
-  const query = { "recipient._id": "ALL_CHAT" };
+  let query;
+  if (req.query.recipient_id === "ALL_CHAT") {
+    query = { "recipient._id": "ALL_CHAT" };
+  } else {
+    query = {
+      $or: [
+        { "sender._id": req.userid, "recipient._id": req.query.recipient_id },
+        { "sender._id": req.query.recipient_id, "recipient._id": req.userid },
+      ],
+    };
+  }
 
   Message.find(query).then((messages) => res.send(messages));
 });
