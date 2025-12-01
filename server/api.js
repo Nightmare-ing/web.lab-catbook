@@ -67,16 +67,19 @@ router.get("/whoami", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  User.findById(req.query.userid).then((user) => {
-    res.send(user);
-  }).catch((err) => {
-    res.status(500).send('User Not');
-  });
+  User.findById(req.query.userid)
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.status(500).send("User Not");
+    });
 });
 
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
-  if (req.user) socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
+  if (req.user)
+    socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
   res.send({});
 });
 
@@ -118,7 +121,14 @@ router.post("/message", auth.ensureLoggedIn, (req, res) => {
   // If the recipient is ALL_CHAT, emit to everyone (shout).
   // Otherwise, if the recipient is an individual user, emit the "message"
   // event to both the recipient as well as the user themselves (if the user is different)
-  socketManager.getIo().emit("message", message);
+  if (req.body.recipient._id === "ALL_CHAT") {
+    socketManager.getIo().emit("message", message);
+  } else {
+    socketManager.getSocketFromUserID(req.user._id).emit("message", message);
+    if (req.query.user._id !== req.body.recipient._id) {
+      socketManager.getSocketFromUserID(req.body.recipient._id).emit("message", message);
+    }
+  }
 });
 
 router.get("/activeUsers", (req, res) => {
