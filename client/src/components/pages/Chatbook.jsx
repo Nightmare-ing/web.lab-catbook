@@ -13,7 +13,6 @@ const ALL_CHAT = {
 };
 
 const Chatbook = () => {
-
   const [activeUsers, setActiveUsers] = useState([]);
   let props = useOutletContext();
 
@@ -32,7 +31,7 @@ const Chatbook = () => {
   };
 
   const addMessage = (data) => {
-    setActiveChat(prevActiveChat => ({
+    setActiveChat((prevActiveChat) => ({
       recipient: prevActiveChat.recipient,
       messages: prevActiveChat.messages.concat(data),
     }));
@@ -46,8 +45,8 @@ const Chatbook = () => {
   // for the recipient stored in activeChat. Change the dependency array
   // so that the useEffect runs whenever the recipient id changes.
   useEffect(() => {
-    loadMessageHistory(ALL_CHAT);
-  }, []);
+    loadMessageHistory(activeChat.recipient);
+  }, [activeChat.recipient._id]);
 
   useEffect(() => {
     get("/api/activeUsers").then((data) => {
@@ -55,7 +54,7 @@ const Chatbook = () => {
       // there's nothing to load. (Also prevents data races with socket event)
       if (props.userId) {
         setActiveUsers([ALL_CHAT].concat(data.activeUsers));
-      };
+      }
     });
   }, []);
 
@@ -80,7 +79,12 @@ const Chatbook = () => {
     // TODO (step 7.1): Set the state "activeChat" to the new recipient (user)
     // and empty array for messages.
     // Then, make sure that the message history for this user is loaded (see step 7.2)
-    console.log(`setting active user to ${user.name}`);
+    if (user._id !== activeChat.recipient._id) {
+      setActiveChat({
+        recipient: user,
+        messages: [],
+      });
+    }
   };
 
   if (!props.userId) {
@@ -103,6 +107,6 @@ const Chatbook = () => {
       </div>
     </>
   );
-}
+};
 
 export default Chatbook;
