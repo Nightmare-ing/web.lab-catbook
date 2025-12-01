@@ -13,8 +13,13 @@ const ALL_CHAT = {
 };
 
 const Chatbook = () => {
-
-  const [activeUsers, setActiveUsers] = useState([]);
+  const [activeUsers, setActiveUsers] = useState([
+    ALL_CHAT,
+    {
+      _id: "Abby",
+      name: "Abby",
+    },
+  ]);
   let props = useOutletContext();
 
   const [activeChat, setActiveChat] = useState({
@@ -32,7 +37,7 @@ const Chatbook = () => {
   };
 
   const addMessage = (data) => {
-    setActiveChat(prevActiveChat => ({
+    setActiveChat((prevActiveChat) => ({
       recipient: prevActiveChat.recipient,
       messages: prevActiveChat.messages.concat(data),
     }));
@@ -64,9 +69,12 @@ const Chatbook = () => {
     <>
       <div className="u-flex u-relative Chatbook-container">
         <div className="Chatbook-userList">
-          {/* TODO (step 3.1): Add ChatList component and pass in the props:
-                   users, active, userId, and setActiveUser.
-                   These four props are described in ChatList.js  */}
+          <ChatList
+            users={activeUsers}
+            active={activeChat.recipient}
+            userId={props.userId}
+            setActiveUser={setActiveUser}
+          />
         </div>
         <div className="Chatbook-chatContainer u-relative">
           <Chat data={activeChat} />
@@ -74,6 +82,6 @@ const Chatbook = () => {
       </div>
     </>
   );
-}
+};
 
 export default Chatbook;
