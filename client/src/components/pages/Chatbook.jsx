@@ -13,7 +13,6 @@ const ALL_CHAT = {
 };
 
 const Chatbook = () => {
-
   const [activeUsers, setActiveUsers] = useState([]);
   let props = useOutletContext();
 
@@ -32,7 +31,7 @@ const Chatbook = () => {
   };
 
   const addMessage = (data) => {
-    setActiveChat(prevActiveChat => ({
+    setActiveChat((prevActiveChat) => ({
       recipient: prevActiveChat.recipient,
       messages: prevActiveChat.messages.concat(data),
     }));
@@ -52,7 +51,7 @@ const Chatbook = () => {
       // there's nothing to load (also prevents data races with socket event in step 7 onwards)
       if (props.userId) {
         setActiveUsers([ALL_CHAT].concat(data.activeUsers));
-      };
+      }
     });
   }, []);
 
@@ -66,6 +65,17 @@ const Chatbook = () => {
   // TODO (step 6.1): add a socket.on call when this component is created that
   // listens for the "activeUsers" event. Whenever we hear the event, update the
   // state with the new active user who just joined, similar to get("/api/activeUsers")!
+  useEffect(() => {
+    const callback = () => {
+      setActiveUsers([ALL_CHAT].concat(data.activeUsers));
+    };
+
+    socket.on("activeUsers", callback);
+
+    return () => {
+      socket.off("activeUsers", callback);
+    };
+  }, []);
 
   const setActiveUser = (user) => {
     console.log(`setting active user to ${user.name}`);
@@ -91,6 +101,6 @@ const Chatbook = () => {
       </div>
     </>
   );
-}
+};
 
 export default Chatbook;
