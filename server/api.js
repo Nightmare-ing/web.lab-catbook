@@ -67,16 +67,19 @@ router.get("/whoami", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  User.findById(req.query.userid).then((user) => {
-    res.send(user);
-  }).catch((err) => {
-    res.status(500).send('User Not');
-  });
+  User.findById(req.query.userid)
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.status(500).send("User Not");
+    });
 });
 
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
-  if (req.user) socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
+  if (req.user)
+    socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
   res.send({});
 });
 
@@ -104,7 +107,7 @@ router.post("/message", auth.ensureLoggedIn, (req, res) => {
 router.get("/activeUsers", (req, res) => {
   // TODO (step 4.1): Send back an object with the field (1 line)
   // activeUsers set to the currently active users (hint: look at socketManager in server-socket.js)
-
+  res.send({ activeUsers: socketManager.getAllConnectedUsers() });
 });
 
 // anything else falls to this "not found" case
