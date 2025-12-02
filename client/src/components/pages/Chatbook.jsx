@@ -13,7 +13,6 @@ const ALL_CHAT = {
 };
 
 const Chatbook = () => {
-
   const [activeUsers, setActiveUsers] = useState([]);
   let props = useOutletContext();
 
@@ -31,17 +30,6 @@ const Chatbook = () => {
     });
   };
 
-  
-  const addMessage = (data) => {
-    // TODO (step 10.1) If the messages don't belong in the currently active
-    // chat, don't add them to the state!
-    // NOTE: we'll need to move the definion of this function
-    setActiveChat(prevActiveChat => ({
-      recipient: prevActiveChat.recipient,
-      messages: prevActiveChat.messages.concat(data),
-    }));
-  };
-
   useEffect(() => {
     document.title = "Chatbook";
   }, []);
@@ -56,11 +44,27 @@ const Chatbook = () => {
       // there's nothing to load. (Also prevents data races with socket event)
       if (props.userId) {
         setActiveUsers([ALL_CHAT].concat(data.activeUsers));
-      };
+      }
     });
   }, []);
 
   useEffect(() => {
+    const addMessage = (data) => {
+      // TODO (step 10.1) If the messages don't belong in the currently active
+      // chat, don't add them to the state!
+      // NOTE: we'll need to move the definion of this function
+      if (
+        (data.recipient._id === activeChat.recipient._id && data.sender._id === props.userId) ||
+        (data.recipient._id === props.userId && data.sender._id === activeChat.recipient._id) ||
+        (data.recipient._id === "ALL_CHAT" && activeChat.recipient._id === "ALL_CHAT")
+      ) {
+        setActiveChat((prevActiveChat) => ({
+          recipient: prevActiveChat.recipient,
+          messages: prevActiveChat.messages.concat(data),
+        }));
+      }
+    };
+
     socket.on("message", addMessage);
     return () => {
       socket.off("message", addMessage);
@@ -106,6 +110,6 @@ const Chatbook = () => {
       </div>
     </>
   );
-}
+};
 
 export default Chatbook;
