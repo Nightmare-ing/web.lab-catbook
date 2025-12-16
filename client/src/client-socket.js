@@ -7,5 +7,8 @@ socket.on("connect", () => {
 });
 
 /** send a message to the server with the move you made in game */
+export const move = (dir) => {
+  socket.emit("move", dir);
+};
 // TODO (Step 2.1 pt 1): Create a function that will be the client's way of sending move data
 //    to the server.

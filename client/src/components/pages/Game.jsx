@@ -20,6 +20,7 @@ const Game = () => {
     // we imported from input.js. Refer to documentation for `addEventListener` here:
     // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
     // Your code goes here!
+    window.addEventListener("keydown", handleInput);
 
     // remove event listener on unmount
     return () => {
@@ -27,6 +28,7 @@ const Game = () => {
       // This return statement allows us to run code when the user leaves the page.
       // Hint: `window` also has a `removeEventListener` method
       // Your code goes here!
+      window.removeEventListener("keydown", handleInput);
     };
   }, []);
 
@@ -37,7 +39,7 @@ const Game = () => {
     });
     return () => {
       socket.off("update");
-    }
+    };
   }, []);
 
   const processUpdate = (update) => {

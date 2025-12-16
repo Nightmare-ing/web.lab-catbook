@@ -51,6 +51,15 @@ const movePlayer = (id, dir) => {
   // Hint: Players are stored in gameState.players, and each player is indexed by its `id`. Each player
   //       has a `position` field, and this `position` field has an `x` field and a `y` field.
   // Your code goes here!
+  if (dir === "up") {
+    gameState.players[id].position.y -= 10;
+  } else if (dir === "down") {
+    gameState.players[id].position.y += 10;
+  } else if (dir === "left") {
+    gameState.players[id].position.x -= 10;
+  } else if (dir === "right") {
+    gameState.players[id].position.x += 10;
+  }
 };
 
 /** Update the game state. This function is called once per server tick. */
