@@ -23,9 +23,9 @@ const NavBar = (props) => {
         <Link to="/chat/" className="NavBar-link u-inlineBlock">
           Chat
         </Link>
-        {/* TODO (Step 0.3): add the Game page to the navbar */}
-        {/* Hint: the link to the Game page is "/game/" */}
-        {/* Your code goes here */}
+        <Link to="/game" className="NavBar-link u-inlineBlock">
+          Game
+        </Link>
         {props.userId ? (
           <button className="NavBar-link NavBar-login u-inlineBlock" onClick={props.handleLogout}>
             Sign out
@@ -35,7 +35,7 @@ const NavBar = (props) => {
             text="signin_with"
             onSuccess={props.handleLogin}
             onFailure={(err) => console.log(err)}
-            containerProps= {{'className': "NavBar-link NavBar-login u-inlineBlock"}}
+            containerProps={{ className: "NavBar-link NavBar-login u-inlineBlock" }}
           />
         )}
       </div>
