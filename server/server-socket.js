@@ -12,14 +12,21 @@ const getSocketFromSocketID = (socketid) => io.sockets.sockets.get(socketid);
 
 /** Send game state to client */
 // TODO (Step 1.1): Create a function which sends gameState updates to all clients.
-
+const sendGameState = () => {
+  io.emit("update", gameLogic.gameState);
+};
 
 // /** Start running game: game loop emits game states to all clients at 60 frames per second */
 // TODO (Step 1.1): Create a function which sets up a game loop for running the game.
-
+const startRunningGame = () => {
+  setInterval(() => {
+    gameLogic.updateGameState();
+    sendGameState();
+  }, 1000 / 60);
+};
 
 // TODO (Step 1.1): Call the above function to start the game.
-
+startRunningGame();
 
 const addUser = (user, socket) => {
   const oldSocket = userToSocketMap[user._id];
@@ -28,6 +35,7 @@ const addUser = (user, socket) => {
   // Hint: spawnPlayer takes a user id as an input, which is given here by `user._id`
   // Hint 2: spawnPlayer is a function from our gameLogic module, which we've already imported
   // Your code goes here!
+  gameLogic.spawnPlayer(user._id);
 
   if (oldSocket && oldSocket.id !== socket.id) {
     // there was an old tab open for this user, force it to disconnect

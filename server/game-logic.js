@@ -22,6 +22,10 @@ const getRandomPosition = () => {
 
 /** Game state */
 // TODO (Step 1.1): Create an object for the initial gameState
+const gameState = {
+  winner: null,
+  players: {},
+};
 
 /** Game logic */
 
@@ -33,17 +37,23 @@ const spawnPlayer = (id) => {
   //    The radius should be the initial radius (defined at the top of this file).
   //    Bonus challenge: If you want, you can try to also give a "color" property to each player, and
   //    initialize it to a random color from the colors array at the top of this file.
-
+  gameState.players[id] = {
+    position: getRandomPosition(),
+    radius: INITIAL_RADIUS,
+    color: colors[getRandomInt(0, colors.length)],
+  };
 };
 
 /** Update the game state. This function is called once per server tick. */
 // TODO (Step 1.1, pt 2): Create an empty (for now) function for updating the game state.
+const updateGameState = () => {};
 
 /** Remove a player from the game state if they disconnect or if they get eaten */
 const removePlayer = (id) => {
   if (gameState.players[id] != undefined) {
     // TODO (Step 1.3): remove the player from the game state
     // Your code goes here
+    delete gameState.players[id];
   }
 };
 
@@ -51,4 +61,6 @@ module.exports = {
   // TODO (Step 1.1, pt 3): Export gameState and the updateGameState function.
   spawnPlayer,
   removePlayer,
+  gameState,
+  updateGameState,
 };
