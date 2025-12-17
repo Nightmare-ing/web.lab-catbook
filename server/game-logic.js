@@ -36,7 +36,7 @@ const playerAttemptEatFood = (pid1, f) => {
       // player 1 is big enough to eat food
       gameState.players[pid1].radius += FOOD_SIZE;
       // TODO (Step 3.3, pt 1): call removeFood on a food if the food is in range
-
+      removeFood(f);
     }
   }
 };
@@ -44,7 +44,11 @@ const playerAttemptEatFood = (pid1, f) => {
 // TODO (Step 3.2): attempt all pairwise eating between each player and all foods
 // Implement the following function:
 const computePlayersEatFoods = () => {
-
+  Object.keys(gameState.players).forEach((pid1) => {
+    gameState.food.forEach((f) => {
+      playerAttemptEatFood(pid1, f);
+    });
+  });
 };
 
 /** Game state */
@@ -52,6 +56,7 @@ const gameState = {
   winner: null,
   players: {},
   // TODO (Step 3.1): Add "food" array to gameState here. (1 line)
+  food: [],
 };
 
 /** Game logic */
@@ -68,7 +73,11 @@ const spawnPlayer = (id) => {
 /** Adds a food to the game state, initialized with a random location */
 // TODO (Step 3.1): Implement the following function which spawns in food at random locations on the map.
 const spawnFood = () => {
-
+  gameState.food.push({
+    position: getRandomPosition(),
+    radius: FOOD_SIZE,
+    color: colors[getRandomInt(0, colors.length)],
+  });
 };
 
 /** Moves a player based off the sent data from the "move" socket msg */
@@ -93,7 +102,9 @@ const movePlayer = (id, dir) => {
 // TODO (Step 3.4): spawn a food if there are less than 10 foods
 // Implement the following function:
 const checkEnoughFoods = () => {
-
+  if (gameState.food.length < 10) {
+    spawnFood();
+  }
 };
 
 /** Update the game state. This function is called once per server tick. */
@@ -102,7 +113,8 @@ const updateGameState = () => {
   // This will compute all pairwise eating between each player and all foods,
   // and add more food to the game
   // Implement two lines:
-
+  computePlayersEatFoods();
+  checkEnoughFoods();
 };
 
 /** Remove a player from the game state if they disconnect or if they get eaten */
@@ -117,7 +129,10 @@ const removePlayer = (id) => {
 // and need to find the corresponding index in gameState.food
 // Implement the following function:
 const removeFood = (f) => {
-
+  const idx = gameState.food.indexOf(f);
+  if (idx !== -1) {
+    gameState.food.splice(idx, 1);
+  }
 };
 
 module.exports = {
