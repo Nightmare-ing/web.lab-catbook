@@ -38,6 +38,20 @@ const playerAttemptEatPlayer = (pid1, pid2) => {
   //    Instead of removing player2 immediately, we will just push player2's id to the playersEaten array
   //    for now, and we will formally delete it delete later.
   // Your code here (Step 4.1)
+  const player1Position = gameState.players[pid1].position;
+  const player2Position = gameState.players[pid2].position;
+  const x1 = player1Position.x;
+  const y1 = player1Position.y;
+  const x2 = player2Position.x;
+  const y2 = player2Position.y;
+  const dist = Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+  if (
+    dist < gameState.players[pid1].radius &&
+    gameState.players[pid1].radius > gameState.players[pid2].radius
+  ) {
+    gameState.players[pid1].radius += gameState.players[pid2].radius;
+    playersEaten.push(pid2);
+  }
 };
 
 /** Attempts all pairwise eating between players */
@@ -46,6 +60,7 @@ const computePlayersEatPlayers = () => {
     Object.keys(gameState.players).forEach((pid1) => {
       Object.keys(gameState.players).forEach((pid2) => {
         // TODO (Step 4.2): call playerAttemptEatPlayer helper function (1 line)
+        playerAttemptEatPlayer(pid1, pid2);
       });
     });
   }
@@ -53,7 +68,7 @@ const computePlayersEatPlayers = () => {
   playersEaten.forEach((playerid) => {
     // TODO (Step 4.3): call removePlayer on each player that has been eaten (1 line)
     // Note that the playerAttemptEatPlayer helper function has already stored all eaten players in playersEaten
-    
+    removePlayer(playerid);
   });
   playersEaten = []; // Reset players that have just been eaten
 };
@@ -143,6 +158,7 @@ const checkEnoughFoods = () => {
 const updateGameState = () => {
   // TODO (Step 4.4): add computePlayersEatPlayers to game loop (1 line)
   // This will check all pairwise eating between players every loop
+  computePlayersEatPlayers();
 
   computePlayersEatFoods();
   checkEnoughFoods();
