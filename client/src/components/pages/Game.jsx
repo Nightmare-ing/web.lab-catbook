@@ -13,6 +13,7 @@ const Game = () => {
   const canvasRef = useRef(null);
 
   // TODO (Step 5.5): initialize winnerModal state (1 line)
+  const [winnerModal, setWinnerModal] = useState(null);
 
   // add event listener on mount
   useEffect(() => {
@@ -22,6 +23,7 @@ const Game = () => {
     return () => {
       window.removeEventListener("keydown", handleInput);
       // TODO (Step 5.4): send a post request with user id to despawn api (1 line)
+      post("/api/despawn", { userid: props.userId });
     };
   }, []);
 
@@ -32,19 +34,19 @@ const Game = () => {
     });
     return () => {
       socket.off("update");
-    }
+    };
   }, []);
 
   const processUpdate = (update) => {
     // TODO (Step 5.5): set winnerModal if update has defined winner
     // Comment in the following code:
-    // if (update.winner) {
-    //   setWinnerModal(
-    //     <div className="Game-winner">the winner is {update.winner} yay cool cool</div>
-    //   );
-    // } else {
-    //   setWinnerModal(null);
-    // }
+    if (update.winner) {
+      setWinnerModal(
+        <div className="Game-winner">the winner is {update.winner} yay cool cool</div>
+      );
+    } else {
+      setWinnerModal(null);
+    }
     drawCanvas(update, canvasRef);
   };
 
@@ -55,7 +57,7 @@ const Game = () => {
       <div>
         <button
           onClick={() => {
-            // TODO (Step 5.3): send a post request with user id to spawn api (1 line)
+            post("/api/spawn", { userid: props.userId });
           }}
         >
           Spawn
@@ -77,7 +79,7 @@ const Game = () => {
         <canvas ref={canvasRef} width="500" height="500" />
         {loginModal}
         {/* TODO (Step 5.5): display winnerModal (1 line) */}
-
+        {winnerModal}
         {spawnButton}
       </div>
     </>

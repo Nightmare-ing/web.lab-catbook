@@ -22,6 +22,7 @@ const auth = require("./auth");
 const router = express.Router();
 
 const socketManager = require("./server-socket");
+const user = require("./models/user");
 
 router.get("/stories", (req, res) => {
   // empty selector means get all documents
@@ -67,11 +68,13 @@ router.get("/whoami", (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  User.findById(req.query.userid).then((user) => {
-    res.send(user);
-  }).catch((err) => {
-    res.status(500).send('User Not');
-  });
+  User.findById(req.query.userid)
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.status(500).send("User Not");
+    });
 });
 
 router.post("/initsocket", (req, res) => {
@@ -133,6 +136,12 @@ router.get("/activeUsers", (req, res) => {
 //    Hint: You should use the socketManager functions you wrote in Step 5.1.
 
 // Your code here
+router.post("/spawn", (req, res) => {
+  if (req.user) {
+    socketManager.addUserToGame(req.user);
+  }
+  res.send({});
+});
 
 // TODO (Step 5.2): Add an API endpoint to despawn players (if they disconnect), and call it "/despawn".
 //    Make sure you use a post API endpoint, and don't forget to check that req.user exists.
@@ -140,6 +149,12 @@ router.get("/activeUsers", (req, res) => {
 //    Hint: You should use the socketManager functions you wrote in Step 5.1.
 
 // Your code here
+router.post("/despawn", (req, res) => {
+  if (req.user) {
+    socketManager.removeUserFromGame(req.user);
+  }
+  res.send({});
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
